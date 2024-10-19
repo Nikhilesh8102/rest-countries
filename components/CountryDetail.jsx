@@ -8,15 +8,15 @@ export default function CountryDetail() {
   //const countryName = new URLSearchParams(location.search).get('name');
   const params = useParams();
   const [notFound, setNotFound] = useState(false);
-const [isDark] = useTheme();
+  const [isDark] = useTheme();
 
   const countryName = params.country;
 
   const [countryData, setCountryData] = useState(null)
 
-  const {state} = useLocation(); //access the country data from home page country card by clicking which u landed here.
+  const { state } = useLocation(); //access the country data from home page country card by clicking which u landed here.
 
-  function updateCountryState(country){
+  function updateCountryState(country) {
     console.log(country.borders);
     setCountryData({
       flag: country.flags.svg,
@@ -30,14 +30,14 @@ const [isDark] = useTheme();
       languages: Object.values(country.languages).join(', '),
       borderCountries: []
 
-   })
+    })
 
     if (!country.borders) {
       country.borderCountries = [];
       country.borders = [];
-    
+
     }
-    
+
 
 
     Promise.all(
@@ -47,39 +47,39 @@ const [isDark] = useTheme();
           .then(([borderCountry]) => borderCountry.name.common); // Return the promise correctly
       })
     ).then(borderCountries => {
-      
-        setCountryData(prevState => ({ ...prevState, borderCountries }));
-     
-      
+
+      setCountryData(prevState => ({ ...prevState, borderCountries }));
+
+
     }).catch((err) => {
       console.log(err);
     });
   }
-  
- 
+
+
   useEffect(() => {
-    if(!state){
+    if (!state) {
       fetch(`https://restcountries.com/v3.1/name/${countryName}?fullText=true`)
-      .then(res => res.json())
-      .then(([country]) => {
+        .then(res => res.json())
+        .then(([country]) => {
 
-        updateCountryState(country);
+          updateCountryState(country);
 
 
-        // console.log(countryData.borderCountries);
+          // console.log(countryData.borderCountries);
 
-      }).catch(() => {
-        setNotFound(true)
-      })
+        }).catch(() => {
+          setNotFound(true)
+        })
     }
-    else{
+    else {
       updateCountryState(state);
     }
-   
-  }, [countryName])
- 
 
- 
+  }, [countryName])
+
+
+
 
   if (notFound) {
     return <div>Country not found</div>

@@ -6,7 +6,7 @@ import ShimmerHome from './ShimmerHome';
 
 
 // eslint-disable-next-line no-unused-vars
-export default function CountriesList({ searchQuery, filterQuery, setposition }) {
+export default function CountriesList({ searchQuery, filterQuery, setPos }) {
   const [countriesData, setCountriesData] = useState([])
 
   useEffect(() => {
@@ -30,7 +30,7 @@ export default function CountriesList({ searchQuery, filterQuery, setposition })
     <>{
       (!countriesData.length) ? <ShimmerHome /> : (
         (countriesData.filter(country => country.name.common.toLowerCase().includes(searchQuery)).filter(country => country.region.toLowerCase().includes(filterQuery))).map(country => (
-          <Country country={country} key={country.name.common} />
+          <Country setPos={setPos} country={country} key={country.name.common} />
 
         ))
       )

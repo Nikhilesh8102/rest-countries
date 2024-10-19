@@ -6,21 +6,28 @@ import CountriesList from './CountriesList';
 import '../src/App.css'
 
 import { useTheme } from '../hooks/useTheme';
+import { useEffect } from 'react';
+import { useLayoutEffect } from 'react';
 
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterQuery, setFilterQuery] = useState('');
   const [isDark] = useTheme();
-  //const [pos, setPos] = useState(JSON.parse(localStorage.getItem('scrollY')) || 0);
+
+
   // const [position, setPosition] = useState(0);
 
-  // function setposition(position) {
-  //   setPosition(position);
-  // }
+  function setPos(position) {
+
+    localStorage.setItem('scrollY', JSON.stringify(Math.floor(position)));
+  }
 
 
-
+  useLayoutEffect(() => {
+    const position = JSON.parse(localStorage.getItem('scrollY'))
+    window.scrollTo(0, position);
+  }, [])
 
 
   // console.log(isDark);
@@ -38,7 +45,7 @@ export default function Home() {
       </div>
 
       <div className="countries-container">
-        <CountriesList searchQuery={searchQuery} filterQuery={filterQuery} />
+        <CountriesList setPos={setPos} searchQuery={searchQuery} filterQuery={filterQuery} />
 
       </div>
 

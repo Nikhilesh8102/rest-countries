@@ -3,14 +3,14 @@ import { Link } from "react-router-dom";
 
 
 
-export default function Country({ country }) {
+export default function Country({ country, setPos }) {
 
 
 
 
     return (
         <>
-            <Link className="country-card" to={`./${country.name.common}`} state={country}>
+            <Link onClick={() => setPos(window.pageYOffset)} className="country-card" to={`./${country.name.common}`} state={country}>
                 <div className="wrapper">
 
                     <img src={country.flags.svg} alt={`${country.name.common}'s flag`} />
